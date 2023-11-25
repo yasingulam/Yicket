@@ -9,6 +9,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Auth.OAuth2.Responses;
+using Google.Apis.Util.Store;
 
 namespace Yicket
 {
@@ -32,39 +36,52 @@ namespace Yicket
 
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string username = UsernameTextBox.Text;
-            string password = PasswordTextBox.Text;
+            // Your existing code for the Login button click event
+            // ...
 
-            if (AuthenticateUser(username, password))
+            // Google OAuth code
+            string clientId = "948999543717-1rnpjjgt66i0vaqmpcn6rh44ol5k7ldi.apps.googleusercontent.com";
+            string clientSecret = "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";
+            string redirectUri = "http://localhost";
+
+            var initializer = new GoogleAuthorizationCodeFlow.Initializer
             {
-                MessageBox.Show("Login successful!");
-                // Here you can navigate to the next screen or perform other actions.
+                ClientSecrets = new ClientSecrets
+                {
+                    ClientId = clientId,
+                    ClientSecret = clientSecret
+                },
+                Scopes = new[] { "openid", "email", "profile" },
+                DataStore = new FileDataStore("CredentialCacheFolder"),
+            };
+
+            var flow = new GoogleAuthorizationCodeFlow(initializer);
+
+            var authCodeRequestUrl = flow.CreateAuthorizationCodeRequest(redirectUri);
+
+            // Open the URL in a browser window or web view
+            // After the user grants permission, Google will redirect to your redirect URI with an authorization code.
+
+            // Handle the authorization code when your application receives it
+            string authorizationCode = "AUTHORIZATION_CODE_FROM_REDIRECT";
+
+            try
+            {
+                var token = await flow.ExchangeCodeForTokenAsync("user", authorizationCode, redirectUri, CancellationToken.None);
+                string accessToken = token.AccessToken;
+
+                // Use the access token to make requests on behalf of the user
+                // ...
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Login failed. Please check your credentials.");
+                // Handle or log the exception
+                MessageBox.Show($"Error during token exchange: {ex.Message}");
             }
         }
 
-        private void CreateAccountButton_Click(object sender, RoutedEventArgs e)
-        {
-            string username = UsernameTextBox.Text;
-            string password = PasswordTextBox.Text;
-
-            //assume a successful account creation if both username and password are non-empty.
-            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
-            {
-                MessageBox.Show("Account created successfully!");
-                // Here you can navigate to the next screen or perform other actions.
-            }
-            else
-            {
-                MessageBox.Show("Account creation failed. Please enter a valid username and password.");
-            }
-
-        }
         private bool AuthenticateUser(string username, string password)
         {
             // assume a successful login if the username is "demo" and the password is "demo".

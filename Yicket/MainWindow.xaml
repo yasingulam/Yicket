@@ -21,27 +21,24 @@
                 <SolidColorBrush Color="#FF17150C" Opacity="0.2"/>
             </TextBlock.Background>
         </TextBlock>
+        <TextBlock x:Name="WelcomeMessage" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,161,0,0" Height="83" Width="395" FontWeight="Bold" FontSize="18" FontFamily="Myanmar Text">
+            <TextBlock.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF292929" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBlock.Foreground><Run Text="Welcome to Yickets! Explore our platform and enjoy "/><LineBreak/><Run Text="a seamless experience. Login to get started."/></TextBlock>
         <!-- new StackPanel with the username, password -->
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,120,0,0" Height="110" Width="204">
-            <StackPanel.Background>
-                <SolidColorBrush Color="Black" Opacity="0.3"/>
-            </StackPanel.Background>
-            <Label Content="Username:" FontFamily="Cascadia Mono SemiBold" Foreground="White"/>
-            <TextBox x:Name="UsernameTextBox" Width="200" Margin="5,5,5,5" TextChanged="UsernameTextBox_TextChanged" FontFamily="Cascadia Mono SemiBold" Height="20" MaxLines="1" IsUndoEnabled="False" HorizontalAlignment="Center"/>
-            <Label Content="Password:" FontFamily="Cascadia Mono SemiBold" Foreground="White"/>
-            <TextBox x:Name="PasswordTextBox"  Width="200" TextChanged="PasswordTextBox_TextChanged" Height="21" >
-                <TextBox.Effect>
-                    <BlurEffect/>
-                </TextBox.Effect>
-            </TextBox>
-        </StackPanel>
         <!-- Usability buttons -->
-        <Button Content="Login" Click="LoginButton_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,249,0,0" FontFamily="Cascadia Mono SemiBold" Foreground="White" Height="32" Width="145">
+        <Button Click="LoginButton_Click"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,249,0,0" FontFamily="Cascadia Mono SemiBold" Foreground="White" Height="36" Width="187">
             <Button.Background>
                 <SolidColorBrush Color="#FF040202" Opacity="1"/>
             </Button.Background>
+            <Grid Width="181">
+                <Image Source="/GoogleLogo.png" Margin="58,4,-88,4"/>
+                <TextBlock Text="Login with Google" FontSize="14" VerticalAlignment="Center" Margin="6,0,29,0"/>
+            </Grid>
         </Button>
-        <Button Content="Create Account" Click="CreateAccountButton_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,295,0,0" FontFamily="Cascadia Mono SemiBold" FontSize="11" Foreground="White" Background="Black" Height="31" Width="144"/>
 
 
     </Grid>
